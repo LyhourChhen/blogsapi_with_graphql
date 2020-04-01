@@ -43,3 +43,22 @@ export const blogs = [
         author: '1',
     },
 ]
+
+export const comments = [
+    {
+        id: 1,
+        text: 'I love you',
+    },
+    {
+        id: 2,
+        text: 'boi you should to die now',
+    },
+    {
+        id: 3,
+        text: 'Mother fucker bullshit',
+    },
+    {
+        id: 4,
+        text: 'Dam mother fucker',
+    },
+]
