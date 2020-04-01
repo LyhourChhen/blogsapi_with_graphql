@@ -5,12 +5,14 @@ import { GraphQLServer } from 'graphql-yoga'
 
 const typeDefs = `
     type Query {
+        greeting(name: String): String!
         hello: String!
         name: String!
         location: String!
         bio: String
         me: User!
         blog: Post!
+        add(x: Float, y: Float ): String!
     }
     type Query_with_scala {
         id: ID!
@@ -54,6 +56,22 @@ const resolvers = {
                 article_name: 'How to learn graphQL ?',
                 paragraph:
                     'GraphQL is the best wat to deal with API faster and efficiency',
+            }
+        },
+        // With arguments
+        // There are 4 main arg in the resolver function (parent, args, ctx, info)
+        greeting: (parent, args, ctx, info) => {
+            // console.log('display args: ', parent, args, ctx, info)
+            return args.name
+                ? `Hello to the program : ${args.name}`
+                : `Hello to the program !`
+        },
+        add: (__, args) => {
+            let result = ''
+            if (args.x && args.y) {
+                return (result = `Results : ${args.x + args.y}`)
+            } else {
+                return (result = 'All arguments must be provided')
             }
         },
     },
