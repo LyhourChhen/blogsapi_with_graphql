@@ -131,15 +131,6 @@ const resolvers = {
             })
         },
     },
-    People: {
-        posts: (parent, arg, ctx, info) => {
-            console.log('parent', parent)
-            return blogsData.filter((post) => {
-                console.log('post author:', post.author)
-                return post.author === parent.id
-            })
-        },
-    },
 
     // With Scala Type => Boolean, String, ID, Int and Float
     Query_with_scala: {
