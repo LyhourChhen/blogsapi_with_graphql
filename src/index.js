@@ -55,11 +55,13 @@ const typeDefs = `
         body : String!
         published: Boolean!
         author: People!
+        comments: [Comment!]!
     }
     type Comment {
         id: ID!
         text: String!
         author: People!
+        posts: Blogs!
     }
 `
 
@@ -145,6 +147,11 @@ const resolvers = {
                 return user.id === parent.author
             })
         },
+        comments: () => (parent) => {
+            return commentData.filter((comm) => {
+                return comm.postId === parent.comments
+            })
+        }
     },
     People: {
         posts: (parent, arg, ctx, info) =>
@@ -162,6 +169,11 @@ const resolvers = {
                 return user.id === parent.author
             })
         },
+        posts: (parent) => {
+            return blogsData.find((post) => {
+                return post.author === parent.id
+            })
+        }
     },
 
     // With Scala Type => Boolean, String, ID, Int and Float

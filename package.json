@@ -6,7 +6,7 @@
     "author": "LyhourChhen <ukamilove66@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "start": "open 'http://localhost:4000' && nodemon --exec babel-node src/index.js"
+        "start": "nodemon --exec babel-node src/index.js"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",

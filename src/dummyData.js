@@ -24,7 +24,7 @@ export const blogs = [
         body:
             "Foreplay is important. Remember that love making starts before the sex part, so don't discount the foreplay phase",
         published: true,
-        author: '3',
+        author: '0',
     },
     {
         id: '1',
@@ -49,20 +49,24 @@ export const comments = [
         id: '123342',
         text: 'I love you',
         author: '1',
+        postId: 1
     },
     {
         id: '223423',
         text: 'boi you should to die now',
         author: '1',
+        postId: 2
     },
     {
         id: '332423',
         text: 'Mother fucker bullshit',
         author: '1',
+        postId: 3
     },
     {
         id: '4234',
         text: 'Dam mother fucker',
         author: '2',
+        postId: 1
     },
 ]
