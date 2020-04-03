@@ -1,0 +1,77 @@
+type Query {
+    greeting(name: String): String!
+    hello: String!
+    name: String!
+    location: String!
+    bio: String
+    me: User!
+    blog: Post!
+    add(x: Float, y: Float): String!
+    grade: [Int!]!
+    sumArray(numArray: [Float!]!): Float!
+    people(search: String): [People!]!
+    BlogsPost(search: String): [Blogs]!
+    comments: [Comment!]!
+}
+
+type Mutation {
+    createUser(data: createUserInput): User!
+    createPost(
+        title: String!
+        body: String!
+        published: Boolean!
+        author: String!
+    ): Blogs!
+    createComment(text: String!, author: ID!, post: ID!): Comment!
+    deleteUser(id: ID!): User!
+    deletePost(id: ID!): Blogs!
+    deleteComment(id: ID!): Comment!
+}
+
+type Query_with_scala {
+    id: ID!
+    name: String!
+    age: Int!
+    employment: Boolean!
+    salary: Float
+}
+type User {
+    id: ID!
+    name: String!
+    password: Float!
+    email: String
+    age: Int
+}
+type Post {
+    id: ID!
+    article_name: String!
+    paragraph: String!
+    author: People!
+}
+type People {
+    id: ID!
+    name: String!
+    age: Int
+    posts: [Blogs]!
+    comments: [Comment!]!
+}
+type Blogs {
+    id: ID!
+    title: String!
+    body: String!
+    published: Boolean!
+    author: People!
+    comments: [Comment!]!
+}
+type Comment {
+    id: ID!
+    text: String!
+    author: String!
+    posts: Blogs!
+}
+
+input createUserInput {
+    name: String!
+    email: String!
+    age: Int
+}

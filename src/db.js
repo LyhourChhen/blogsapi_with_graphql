@@ -1,4 +1,4 @@
-export let data = [
+let peoplesData = [
     {
         id: '0',
         name: 'Vicka',
@@ -19,7 +19,7 @@ export let data = [
     },
 ]
 
-export let blogs = [
+let blogsData = [
     {
         id: '0',
         title: 'How to make love <3',
@@ -46,7 +46,7 @@ export let blogs = [
     },
 ]
 
-export let comments = [
+let commentData = [
     {
         id: 123342,
         text: 'I love you',
@@ -72,3 +72,10 @@ export let comments = [
         postId: 1,
     },
 ]
+
+const db = {
+    peoplesData,
+    blogsData,
+    commentData,
+}
+export { db as default }

@@ -1,90 +1,6 @@
 import { GraphQLServer } from 'graphql-yoga'
 import uuidv4 from 'uuid/v4'
-import {
-    data as peoplesData,
-    blogs as blogsData,
-    comments as commentData,
-    comments,
-} from './dummyData'
-// Type Definition || Schema (This is where our structure should look like)
-// ! => It required field && if noting it will return null
-
-const typeDefs = `
-    type Query {
-        greeting(name: String): String!
-        hello: String!
-        name: String!
-        location: String!
-        bio: String
-        me: User!
-        blog: Post!
-        add(x: Float, y: Float ): String!
-        grade: [Int!]!
-        sumArray(numArray:[Float!]!): Float!
-        people(search: String):[People!]!
-        BlogsPost(search: String):[Blogs]!
-        comments: [Comment!]!
-    }
-    
-    type Mutation {
-        createUser(data : createUserInput): User!    
-        createPost(title: String!, body: String!, published: Boolean!, author: String! ): Blogs!
-        createComment(text: String!, author: ID!, post: ID!): Comment!
-        deleteUser(id: ID!): User!
-        deletePost(id: ID!): Blogs!
-        deleteComment(id: ID!): Comment!
-    }
-
-    type Query_with_scala {
-        id: ID!
-        name: String!
-        age: Int!
-        employment: Boolean!
-        salary: Float
-    }
-    type User {
-        id: ID!
-        name: String!
-        password: Float!
-        email: String
-        age: Int
-    }
-    type Post {
-        id: ID!
-        article_name: String!
-        paragraph: String!
-        author: People!
-    }
-    type People {
-        id: ID!
-        name: String!
-        age: Int
-        posts: [Blogs]!
-        comments: [Comment!]!
-    }
-    type Blogs { 
-        id: ID!
-        title : String!
-        body : String!
-        published: Boolean!
-        author: People!
-        comments: [Comment!]!
-    }
-    type Comment {
-        id: ID!
-        text: String!
-        author: String !
-        posts: Blogs!
-    }
-
-    input createUserInput { 
-        name: String!
-        email: String!
-        age: Int
-    }
-`
-
-// Resolvers => The function where where schema need to be performs
+import db from './db'
 
 const resolvers = {
     //This must be match with type
@@ -139,17 +55,17 @@ const resolvers = {
         },
         people: (parent, arg, ctx, info) => {
             if (!arg.search) {
-                return peoplesData
+                return ctx.db.peoplesData
             }
-            return peoplesData.filter((user) => {
+            return ctx.db.peoplesData.filter((user) => {
                 return user.name.toLowerCase().includes(arg.search.toLowerCase())
             })
         },
         BlogsPost: (__, arg) => {
             if (!arg.search) {
-                return blogsData
+                return ctx.db.blogsData
             }
-            return blogsData.filter((blog) => {
+            return ctx.db.blogsData.filter((blog) => {
                 return (
                     blog.title.toLowerCase().includes(arg.search.toLowerCase()) ||
                     blog.body.toLowerCase().includes(arg.search.toLowerCase())
@@ -157,12 +73,12 @@ const resolvers = {
             })
         },
         comments: () => {
-            return commentData
+            return ctx.db.commentData
         },
     },
     Mutation: {
         createUser: (parent, args, ctx, info) => {
-            const emailTaken = peoplesData.some(
+            const emailTaken = ctx.db.peoplesData.some(
                 (email) => email.email === args.data.email,
             )
             if (emailTaken) {
@@ -173,12 +89,12 @@ const resolvers = {
                 id: uuidv4(),
             }
 
-            peoplesData.push(user)
+            ctx.db.peoplesData.push(user)
             return user
         },
         createPost: (parent, arg, ctx, info) => {
             // check user found
-            const foundUser = blogsData.some((blog) => {
+            const foundUser = ctx.db.blogsData.some((blog) => {
                 blog.id === arg.author
             })
             if (!foundUser) {
@@ -191,12 +107,14 @@ const resolvers = {
                 published: arg.published,
                 author: arg.author,
             }
-            blogsData.push(post)
+            ctx.db.blogsData.push(post)
             return post
         },
         createComment: (parent, arg, ctx, info) => {
-            const userExist = peoplesData.some((user) => user.id === arg.author)
-            const postExist = blogsData.some(
+            const userExist = ctx.db.peoplesData.some(
+                (user) => user.id === arg.author,
+            )
+            const postExist = ctx.db.blogsData.some(
                 (post) => post.id === arg.post && post.published,
             )
             if (!userExist || !postExist) {
@@ -208,32 +126,32 @@ const resolvers = {
                 author: arg.author,
                 post: arg.post,
             }
-            commentData.push(comment)
+            ctx.db.commentData.push(comment)
             return comment
         },
         deleteUser: (parent, args, ctx, info) => {
             // Find index of ID
-            const userIndex = peoplesData.findIndex((user) => {
+            const userIndex = ctx.db.peoplesData.findIndex((user) => {
                 return user.id === args.id
             })
             // findIndex if not true will return -1
             if (userIndex === -1) {
                 throw new Error('user not found!')
             }
-            const deleteUser = peoplesData.splice(userIndex, 1)
+            const deleteUser = ctx.db.peoplesData.splice(userIndex, 1)
 
-            blogsData.filter((post) => {
+            ctx.db.blogsData.filter((post) => {
                 const match = user.id === arg.id
                 if (match) {
                     commentData.filter((comment) => comment.postId !== post.id)
                 }
                 return !match
             })
-            commentData.filter((comment) => comment.author !== args.id)
+            ctx.db.commentData.filter((comment) => comment.author !== args.id)
             return deleteUser[0]
         },
         deletePost: (parent, args, ctx, info) => {
-            const postIndex = blogsData.findIndex((post) => {
+            const postIndex = ctx.db.blogsData.findIndex((post) => {
                 return post.id === args.id
             })
             if (postIndex === -1) {
@@ -241,22 +159,22 @@ const resolvers = {
             }
             // delete process
 
-            const deletePost = blogsData.splice(postIndex, 1)
-            commentData.filter((comment) => comment.postId === args.id)
+            const deletePost = ctx.db.blogsData.splice(postIndex, 1)
+            ctx.db.commentData.filter((comment) => comment.postId === args.id)
             return deletePost[0]
         },
         deleteComment: (__, args) => {
             // check comment have or not
-            const foundComment = commentData.some((comment) => {
+            const foundComment = ctx.db.commentData.some((comment) => {
                 comment.id === args.id
             })
             if (!foundComment) {
                 throw new Error('Error!!, Comment not found dude, pls try again')
             }
-            const deleteComment = commentData.filter((comment) => {
+            const deleteComment = ctx.db.commentData.filter((comment) => {
                 comment.id === args.id
             })
-            commentData.filter((comment) => {
+            ctx.db.commentData.filter((comment) => {
                 comment.id === args.id
             })
             return deleteComment
@@ -265,34 +183,34 @@ const resolvers = {
 
     Blogs: {
         author: (parent, arg, ctx, info) => {
-            return peoplesData.find((user) => {
+            return ctx.db.peoplesData.find((user) => {
                 return user.id === parent.author
             })
         },
         comments: () => (parent) => {
-            return commentData.filter((comm) => {
+            return ctx.db.commentData.filter((comm) => {
                 return comm.postId === parent.comments
             })
         },
     },
     People: {
         posts: (parent, arg, ctx, info) =>
-            blogsData.filter((post) => {
+            ctx.db.blogsData.filter((post) => {
                 return post.author === parent.id
             }),
         comments: (parent, arg, ctx, info) =>
-            comments.filter((com) => {
+            ctx.db.comments.filter((com) => {
                 return com.author === parent.id
             }),
     },
     Comment: {
         author: (parent) => {
-            return peoplesData.find((user) => {
+            return ctx.db.peoplesData.find((user) => {
                 return user.id === parent.author
             })
         },
         posts: (parent) => {
-            return blogsData.find((post) => {
+            return ctx.db.blogsData.find((post) => {
                 return post.author === parent.id
             })
         },
@@ -310,8 +228,11 @@ const resolvers = {
 
 // -------------------------------
 const server = new GraphQLServer({
-    typeDefs: typeDefs,
+    typeDefs: './src/schema.graphql',
     resolvers: resolvers,
+    context: {
+        db,
+    },
 })
 
 server.start(() => {
