@@ -1,4 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
+import uuidv4 from 'uuid/v4'
 import {
     data as peoplesData,
     blogs as blogsData,
@@ -27,6 +28,7 @@ const typeDefs = `
     
     type Mutation {
         createUser(name: String!, email: String!, age: Int): User!    
+        createPost(title: String!, body: String!, published: Boolean!, author: String! ): Blogs!
     }
 
     type Query_with_scala {
@@ -147,12 +149,41 @@ const resolvers = {
         comments: () => {
             return commentData
         },
-
     },
     Mutation: {
         createUser: (parent, arg, ctx, info) => {
-            console.log("HI from arg", arg)
-        }
+            const emailTaken = peoplesData.some((email) => email.email === arg.email)
+            if (emailTaken) {
+                throw new Error('Email is taken')
+            }
+            const user = {
+                id: uuidv4(),
+                name: arg.name,
+                email: arg.email,
+                age: arg.age,
+            }
+
+            peoplesData.push(user)
+            return user
+        },
+        createPost: (parent, arg, ctx, info) => {
+            // check weather user found
+            const foundUser = blogsData.some((blog) => {
+                blog.id === arg.author
+            })
+            if (!foundUser) {
+                throw new Error('User/Author Not found!')
+            }
+            const post = {
+                id: uuidv4(),
+                title: arg.title,
+                body: arg.body,
+                published: arg.published,
+                author: arg.author,
+            }
+            blogsData.push(post)
+            return post
+        },
     },
 
     Blogs: {
@@ -165,7 +196,7 @@ const resolvers = {
             return commentData.filter((comm) => {
                 return comm.postId === parent.comments
             })
-        }
+        },
     },
     People: {
         posts: (parent, arg, ctx, info) =>
@@ -187,7 +218,7 @@ const resolvers = {
             return blogsData.find((post) => {
                 return post.author === parent.id
             })
-        }
+        },
     },
 
     // With Scala Type => Boolean, String, ID, Int and Float

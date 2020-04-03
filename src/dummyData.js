@@ -4,16 +4,19 @@ export const data = [
         id: '0',
         name: 'Vicka',
         age: 19,
+        email: 'laoVicheka@gmail.com',
     },
     {
         id: '1',
         name: 'Roth',
         age: 20,
+        email: 'jonhSom@gmail.com',
     },
     {
         id: '2',
         name: 'Lihour',
         age: 19,
+        email: 'nana@gmail.com',
     },
 ]
 
@@ -49,24 +52,24 @@ export const comments = [
         id: '123342',
         text: 'I love you',
         author: '1',
-        postId: 1
+        postId: 1,
     },
     {
         id: '223423',
         text: 'boi you should to die now',
         author: '1',
-        postId: 2
+        postId: 2,
     },
     {
         id: '332423',
         text: 'Mother fucker bullshit',
         author: '1',
-        postId: 3
+        postId: 3,
     },
     {
         id: '4234',
         text: 'Dam mother fucker',
         author: '2',
-        postId: 1
+        postId: 1,
     },
 ]
