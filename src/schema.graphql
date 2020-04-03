@@ -28,13 +28,13 @@ type Mutation {
     deleteComment(id: ID!): Comment!
 }
 
-type Query_with_scala {
-    id: ID!
-    name: String!
-    age: Int!
-    employment: Boolean!
-    salary: Float
-}
+# type Query_with_scala {
+#     id: ID!
+#     name: String!
+#     age: Int!
+#     employment: Boolean!
+#     salary: Float
+# }
 type User {
     id: ID!
     name: String!
