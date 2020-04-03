@@ -25,7 +25,7 @@ const server = new GraphQLServer({
 
 server.start(() => {
     console.log(
-        `Server is up on port ${colors.blue('=>')} ${colors.red(
+        `Server is running on port ${colors.blue('=>')} ${colors.red(
             'http://localhost:4000',
         )} ${colors.blue('<=')}`,
     )

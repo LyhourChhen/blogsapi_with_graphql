@@ -100,6 +100,32 @@ const Mutation = {
         })
         return deleteComment
     },
+    updateUser: (parent, args, ctx, info) => {
+        // checking user exist
+        const user = ctx.db.peoplesData.find((user) => user.id === args.id)
+        if (user === undefined || user === null) {
+            throw new Error('user not found')
+        }
+        // checking email
+        if (typeof args.data.email === 'string') {
+            const emailTaken = ctx.db.peoplesData.some(
+                (user) => user.email === args.data.email,
+            )
+            if (emailTaken) {
+                throw new Error('Email is in used / taken')
+            }
+            user.email = args.data.email
+        }
+        // checking age
+        if (typeof args.data.age !== 'undefined') {
+            user.age = args.data.age
+        }
+        // change name
+        if (typeof args.data.name !== null || typeof args.data.name !== undefined) {
+            user.name = args.data.name
+        }
+        return user
+    },
 }
 
 export default Mutation
