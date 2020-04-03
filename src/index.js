@@ -29,6 +29,7 @@ const typeDefs = `
     type Mutation {
         createUser(name: String!, email: String!, age: Int): User!    
         createPost(title: String!, body: String!, published: Boolean!, author: String! ): Blogs!
+        createComment(text: String!, author: ID!, post: ID!): Comment!
     }
 
     type Query_with_scala {
@@ -69,7 +70,7 @@ const typeDefs = `
     type Comment {
         id: ID!
         text: String!
-        author: People!
+        author: String !
         posts: Blogs!
     }
 `
@@ -183,6 +184,23 @@ const resolvers = {
             }
             blogsData.push(post)
             return post
+        },
+        createComment: (parent, arg, ctx, info) => {
+            const userExist = peoplesData.some((user) => user.id === arg.author)
+            const postExist = blogsData.some(
+                (post) => post.id === arg.post && post.published,
+            )
+            if (!userExist || !postExist) {
+                throw new Error("Can't even find the user and post!")
+            }
+            const comment = {
+                id: uuidv4(),
+                text: arg.text,
+                author: arg.author,
+                post: arg.post,
+            }
+            commentData.push(comment)
+            return comment
         },
     },
 
