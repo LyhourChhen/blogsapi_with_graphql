@@ -42,10 +42,11 @@ const Mutation = {
         return post
     },
     createComment: (parent, args, ctx, info) => {
+        console.log('render log', args)
         const { pubsub } = ctx
-        const userExist = ctx.db.peoplesData.some((user) => user.id === args.author)
+        const userExist = ctx.db.peoplesData.some((user) => user.id == args.author) //maybe wrong type
         const postExist = ctx.db.blogsData.some(
-            (post) => post.id === args.post && post.published,
+            (post) => post.id == args.post && post.published,
         )
         console.log(
             'check both user and post',

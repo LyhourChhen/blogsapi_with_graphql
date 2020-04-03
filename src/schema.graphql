@@ -73,7 +73,7 @@ type Blogs {
 type Comment {
     id: ID!
     text: String!
-    author: String!
+    author: People!
     posts: Blogs!
 }
 
