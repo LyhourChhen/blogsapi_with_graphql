@@ -27,6 +27,7 @@ type Mutation {
     deletePost(id: ID!): Blogs!
     deleteComment(id: ID!): Comment!
     updateUser(id: ID!, data: updateUserInput!): User!
+    updateBlogs(id: ID!, data: updateBlogsInput): Blogs!
 }
 
 # type Query_with_scala {
@@ -80,4 +81,9 @@ input updateUserInput {
     name: String
     email: String
     age: Int
+}
+input updateBlogsInput {
+    title: String
+    body: String
+    published: Boolean
 }

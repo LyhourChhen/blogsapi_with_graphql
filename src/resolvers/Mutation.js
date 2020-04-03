@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid/v4'
+import colors from 'colors'
 const Mutation = {
     createUser: (parent, args, ctx, info) => {
         const emailTaken = ctx.db.peoplesData.some(
@@ -125,6 +126,27 @@ const Mutation = {
             user.name = args.data.name
         }
         return user
+    },
+    updateBlogs: (parent, args, ctx, info) => {
+        // check post is exist ?
+        const checkPost = ctx.db.blogsData.find((post) => {
+            return post.id === args.id
+        })
+        console.log('checkpost output', colors.red(checkPost))
+        if (checkPost === undefined || checkPost === null) {
+            throw new Error("Your blog isn't exist, please try different Id")
+        }
+        // check null || undefined
+        if (typeof args.data.title === 'string') {
+            checkPost.title === args.data.title
+        }
+        if (typeof args.data.title === 'string') {
+            checkPost.body === args.data.body
+        }
+        if (typeof args.data.title === 'boolean') {
+            checkPost.published === args.data.published
+        }
+        return checkPost
     },
 }
 
