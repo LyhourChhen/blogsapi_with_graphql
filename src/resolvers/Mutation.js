@@ -17,7 +17,7 @@ const Mutation = {
         return user
     },
     createPost: (parent, args, ctx, info) => {
-        // check user found
+        // check user exist
         const foundUser = ctx.db.blogsData.some((blog) => {
             return blog.id === args.author
         })
@@ -25,6 +25,7 @@ const Mutation = {
         if (!foundUser) {
             throw new Error('User/Author Not found!')
         }
+
         const post = {
             id: uuidv4(),
             title: args.title,
@@ -34,19 +35,22 @@ const Mutation = {
         }
         ctx.db.blogsData.push(post)
 
+        console.log('data that push to post', colors.red(post))
+
         if (args.published === true) {
-            console.log('post data', colors.red(post))
             ctx.pubsub.publish('post', { post })
         }
 
         return post
     },
+
     createComment: (parent, args, ctx, info) => {
         console.log('render log', args)
         const { pubsub } = ctx
-        const userExist = ctx.db.peoplesData.some((user) => user.id == args.author) //maybe wrong type
+
+        const userExist = ctx.db.peoplesData.some((user) => user.id === args.author) //maybe wrong type
         const postExist = ctx.db.blogsData.some(
-            (post) => post.id == args.post && post.published,
+            (post) => post.id === args.post && post.published,
         )
         console.log(
             'check both user and post',
@@ -56,12 +60,15 @@ const Mutation = {
         if (!userExist || !postExist) {
             throw new Error("Can't even find the user and post!")
         }
+
         const comment = {
             id: uuidv4(),
             text: args.text,
             author: args.author,
             post: args.post,
         }
+
+        console.log('data that push to comment', colors.red(comment))
         ctx.db.commentData.push(comment)
 
         // Subscription
