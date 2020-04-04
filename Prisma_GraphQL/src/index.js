@@ -1,4 +1,5 @@
 import { GraphQLServer, PubSub } from 'graphql-yoga'
+import colors from 'colors'
 import db from './db'
 import Query from './resolvers/Query'
 import Mutation from './resolvers/Mutation'
@@ -17,14 +18,18 @@ const server = new GraphQLServer({
         Subscription,
         User,
         Post,
-        Comment
+        Comment,
     },
     context: {
         db,
-        pubsub
-    }
+        pubsub,
+    },
 })
 
 server.start(() => {
-    console.log('The server is up!')
+    console.log(
+        `Server is running on port ${colors.blue('=>')} ${colors.red(
+            'http://localhost:4000',
+        )} ${colors.blue('<=')}`,
+    )
 })

@@ -8,7 +8,7 @@ const Comment = {
         return db.posts.find((post) => {
             return post.id === parent.post
         })
-    }
+    },
 }
 
 export { Comment as default }

@@ -14,8 +14,12 @@ const Query = {
         }
 
         return db.posts.filter((post) => {
-            const isTitleMatch = post.title.toLowerCase().includes(args.query.toLowerCase())
-            const isBodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase())
+            const isTitleMatch = post.title
+                .toLowerCase()
+                .includes(args.query.toLowerCase())
+            const isBodyMatch = post.body
+                .toLowerCase()
+                .includes(args.query.toLowerCase())
             return isTitleMatch || isBodyMatch
         })
     },
@@ -26,7 +30,7 @@ const Query = {
         return {
             id: '123098',
             name: 'Mike',
-            email: 'mike@example.com'
+            email: 'mike@example.com',
         }
     },
     post() {
@@ -34,9 +38,9 @@ const Query = {
             id: '092',
             title: 'GraphQL 101',
             body: '',
-            published: false
+            published: false,
         }
-    }
+    },
 }
 
 export { Query as default }

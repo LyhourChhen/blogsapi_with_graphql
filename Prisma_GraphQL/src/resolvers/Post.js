@@ -8,7 +8,7 @@ const Post = {
         return db.comments.filter((comment) => {
             return comment.post === parent.id
         })
-    }
+    },
 }
 
 export { Post as default }
