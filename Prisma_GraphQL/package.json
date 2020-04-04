@@ -16,14 +16,11 @@
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-preset-env": "^1.7.0",
         "colors": "^1.4.0",
-        "graphql-cli": "^2.16.4",
         "graphql-yoga": "^1.18.3",
         "prisma-binding": "^2.3.16",
         "uuid": "^7.0.2"
     },
     "devDependencies": {
-        "@graphql-codegen/schema-ast": "^1.13.1",
-        "@test-graphql-cli/codegen": "^4.0.1-beta.3",
         "nodemon": "^2.0.2"
     }
 }
