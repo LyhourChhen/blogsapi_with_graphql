@@ -130,27 +130,36 @@ const Mutation = {
         console.log('data output', colors.red(data))
         return data
     },
-    deletePost(parent, args, { db, pubsub }, info) {
-        const postIndex = db.posts.findIndex((post) => post.id === args.id)
+    deletePost(parent, args, { db, pubsub, prisma }, info) {
+        // const postIndex = db.posts.findIndex((post) => post.id === args.id)
 
-        if (postIndex === -1) {
-            throw new Error('Post not found')
-        }
+        // if (postIndex === -1) {
+        //     throw new Error('Post not found')
+        // }
 
-        const [post] = db.posts.splice(postIndex, 1)
+        // const [post] = db.posts.splice(postIndex, 1)
 
-        db.comments = db.comments.filter((comment) => comment.post !== args.id)
+        // db.comments = db.comments.filter((comment) => comment.post !== args.id)
 
-        if (post.published) {
-            pubsub.publish('post', {
-                post: {
-                    mutation: 'DELETED',
-                    data: post,
+        // if (post.published) {
+        //     pubsub.publish('post', {
+        //         post: {
+        //             mutation: 'DELETED',
+        //             data: post,
+        //         },
+        //     })
+        // }
+
+        // return post
+        // -------
+        return prisma.mutation.deletePost(
+            {
+                where: {
+                    id: args.id,
                 },
-            })
-        }
-
-        return post
+            },
+            info,
+        )
     },
     updatePost(parent, args, { db, pubsub }, info) {
         const { id, data } = args
