@@ -22,13 +22,14 @@ const prisma = new Prisma({
 // })
 
 // mutation
+
 prisma.mutation
     .createPost(
         {
             data: {
-                title: 'create post via prisma binding',
-                body: 'This is how i am binding via prisma',
-                published: true,
+                title: 'Learn graphQL 101',
+                body: 'nana this is just a test',
+                published: false,
                 author: {
                     connect: {
                         id: 'ck8l5p9ii006i07044xqxxhmv',
@@ -39,5 +40,9 @@ prisma.mutation
         '{id title body published}',
     )
     .then((post) => {
-        console.log(JSON.stringify(post, null, 2))
+        console.log('data', post)
+        return prisma.query.users(null, '{id name  posts {id title}}')
+    })
+    .then((data) => {
+        console.log(JSON.stringify(data, null, 2))
     })
