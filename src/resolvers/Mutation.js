@@ -78,25 +78,7 @@ const Mutation = {
         //     }
         //     return user
         // },
-        // createPost(parent, args, { db, pubsub }, info) {
-        //     const userExists = db.users.some((user) => user.id === args.data.author)
-        //     if (!userExists) {
-        //         throw new Error('User not found')
-        //     }
-        //     const post = {
-        //         id: uuidv4(),
-        //         ...args.data,
-        //     }
-        //     db.posts.push(post)
-        //     if (args.data.published) {
-        //         pubsub.publish('post', {
-        //             post: {
-        //                 mutation: 'CREATED',
-        //                 data: post,
-        //             },
-        //         })
-        //     }
-        //     return post
+
         return prisma.mutation.updateUser(
             {
                 data: args.data,
@@ -106,6 +88,47 @@ const Mutation = {
             },
             info,
         )
+    },
+    async createPost(parent, args, { db, pubsub, prisma }, info) {
+        // const userExists = db.users.some((user) => user.id === args.data.author)
+        // if (!userExists) {
+        //     throw new Error('User not found')
+        // }
+        // const post = {
+        //     id: uuidv4(),
+        //     ...args.data,
+        // }
+        // db.posts.push(post)
+        // if (args.data.published) {
+        //     pubsub.publish('post', {
+        //         post: {
+        //             mutation: 'CREATED',
+        //             data: post,
+        //         },
+        //     })
+        // }
+        // return post
+
+        // check user if exist or note
+
+        console.log('args output', colors.blue(args))
+        const data = await prisma.mutation.createPost(
+            {
+                data: {
+                    title: args.data.title,
+                    body: args.data.body,
+                    published: args.data.published,
+                    author: {
+                        connect: {
+                            id: args.data.author,
+                        },
+                    },
+                },
+            },
+            info,
+        )
+        console.log('data output', colors.red(data))
+        return data
     },
     deletePost(parent, args, { db, pubsub }, info) {
         const postIndex = db.posts.findIndex((post) => post.id === args.id)
