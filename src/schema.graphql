@@ -32,7 +32,7 @@ input CreateUserInput {
 input UpdateUserInput {
     name: String
     email: String
-    age: Int
+    #age: Int
 }
 
 input CreatePostInput {

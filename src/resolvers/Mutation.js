@@ -1,22 +1,29 @@
 import uuidv4 from 'uuid/v4'
-
+import colors from 'colors'
 const Mutation = {
-    createUser(parent, args, { db }, info) {
-        const emailTaken = db.users.some((user) => user.email === args.data.email)
+    createUser: async (parent, args, { db, prisma }, info) => {
+        // const emailTaken = db.users.some((user) => user.email === args.data.email)
+        // if (emailTaken) {
+        //     throw new Error('Email taken')
+        // }
+        // const user = {
+        //     id: uuidv4(),
+        //     ...args.data,
+        // }
+        // db.users.push(user)
+        // return user
 
+        // check exist
+        const emailTaken = await prisma.exists.User({
+            email: args.data.email,
+        })
+        console.log('console out email taken', colors.red(emailTaken))
         if (emailTaken) {
-            throw new Error('Email taken')
+            throw new Error('Email is taken')
         }
-
-        const user = {
-            id: uuidv4(),
-            ...args.data,
-        }
-
-        db.users.push(user)
-
-        return user
+        return prisma.mutation.createUser({ data: args.data }, info)
     },
+
     deleteUser(parent, args, { db }, info) {
         const userIndex = db.users.findIndex((user) => user.id === args.id)
 
