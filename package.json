@@ -9,7 +9,8 @@
         "start": "nodemon --ext js,graphql --exec babel-node src/index.js",
         "get-schema": "graphql get-schema -p prisma",
         "deploy": "prisma deploy",
-        "deploy-reviews": " echo '==> will be host at ==> http://localhost:4466/reviews \n' && cd ./prisma-reviews && prisma deploy"
+        "deploy-reviews": " echo '==> will be host at ==> http://localhost:4466/reviews \n' && cd ./prisma-reviews && prisma deploy",
+        "get-token": "cd prisma && prisma token"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",
