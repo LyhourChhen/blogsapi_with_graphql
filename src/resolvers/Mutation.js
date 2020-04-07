@@ -1,4 +1,4 @@
-import uuidv4 from 'uuid/v4'
+import bscript from 'bcryptjs'
 import colors from 'colors'
 const Mutation = {
     createUser: async (parent, args, { db, prisma }, info) => {
@@ -14,6 +14,15 @@ const Mutation = {
         // return user
 
         // check exist
+
+        // check password
+        // Take in password -> Validate Password -> Hash Password -> Generate auth token
+        console.log('console prisma', colors.blue(prisma))
+        if (args.data.password.length < 8) {
+            throw new Error('Password must be 8 character longer')
+        }
+        const password = await bscript.hash(args.data.password, 10)
+
         const emailTaken = await prisma.exists.User({
             email: args.data.email,
         })
@@ -21,7 +30,15 @@ const Mutation = {
         if (emailTaken) {
             throw new Error('Email is taken')
         }
-        return prisma.mutation.createUser({ data: args.data }, info)
+        return prisma.mutation.createUser(
+            {
+                data: {
+                    ...args.data,
+                    password: password,
+                },
+            },
+            info,
+        )
     },
 
     async deleteUser(parent, args, { db, prisma }, info) {
