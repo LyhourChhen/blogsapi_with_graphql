@@ -1,8 +1,11 @@
-import jwt from 'jsonwebtoken'
+import bcrypt from 'bcryptjs'
 
-const generateToken = (userId) => {
-    return jwt.sign({ userId }, 'thisisasecret', {
-        expiresIn: '7 days',
-    })
+const hashPassword = (password) => {
+    if (password.length < 8) {
+        throw new Error('Password must be 8 characters or longer.')
+    }
+
+    return bcrypt.hash(password, 10)
 }
-export default generateToken
+
+export { hashPassword as default }

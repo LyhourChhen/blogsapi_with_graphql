@@ -132,16 +132,17 @@ const Mutation = {
         //     }
         //     return user
         // },
-        if(typeof args.data.password === "string"){
-            args.data.password = await hashPassword(args.data.password)
+
+        if (typeof args.data.password === 'string') {
+            args.data.password = hashPassword(args.data.password)
         }
 
         return prisma.mutation.updateUser(
             {
-                data: args.data,
                 where: {
                     id: AuthUserId,
                 },
+                data: args.data,
             },
             info,
         )
