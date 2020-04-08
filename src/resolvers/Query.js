@@ -1,6 +1,7 @@
 import getUserId from '../utils/getUserId'
+import colors from 'colors'
 const Query = {
-    users(parent, args, { db, prisma }, info) {
+    async users(parent, args, { db, prisma }, info) {
         // before connect with prisma server
         // if (!args.query) {
         //     return db.users
@@ -27,7 +28,9 @@ const Query = {
                 ],
             }
         }
-        return prisma.query.users(opArgs, info)
+        const returnData = await prisma.query.users(opArgs, info)
+        console.log('render out return data', colors.white(returnData))
+        return returnData
     },
     posts(parent, args, { db, prisma }, info) {
         // if (!args.query) {
