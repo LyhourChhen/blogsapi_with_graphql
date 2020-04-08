@@ -12,7 +12,10 @@ const Query = {
         // })
 
         // connected
-        const opArgs = {}
+        const opArgs = {
+            first: args.first,
+            skip: args.skip,
+        }
         if (args.query) {
             opArgs.where = {
                 // single
@@ -49,6 +52,8 @@ const Query = {
 
         // After Connected
         const opArgs = {
+            first: args.first,
+            skip: args.skip,
             where: {
                 published: true,
             },
