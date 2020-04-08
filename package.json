@@ -6,12 +6,16 @@
     "author": "LyhourChhen <ukamilove66@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "start": "nodemon --ext js,graphql --exec babel-node src/index.js",
+        "start": "",
+        "dev": "env-cmd ./config/dev.env nodemon --ext js,graphql --exec babel-node src/index.js",
         "get-schema": "graphql get-schema -p prisma",
         "deploy": "prisma deploy",
         "deploy-reviews": " echo '==> will be host at ==> http://localhost:4466/reviews \n' && cd ./prisma-reviews && prisma deploy",
         "get-token": "cd prisma && prisma token",
-        "wipe-data": "prisma delete"
+        "wipe-data": "prisma delete",
+        "deploy-prod": "cd prisma && prisma deploy -e ../config/prod.env",
+        "deploy-dev": "cd prisma && prisma deploy -e ../config/dev.env",
+        "deploy-all": "cd prisma && prisma deploy -e ../config/dev.env && prisma deploy -e ../config/prod.env"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",
@@ -21,6 +25,7 @@
         "babel-preset-env": "^1.7.0",
         "bcryptjs": "^2.4.3",
         "colors": "^1.4.0",
+        "env-cmd": "^10.1.0",
         "graphql-cli": "^3.0.14",
         "graphql-yoga": "^1.18.3",
         "jsonwebtoken": "^8.5.1",

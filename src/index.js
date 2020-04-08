@@ -13,7 +13,7 @@ const server = new GraphQLServer({
     fragmentReplacements,
 })
 
-server.start(() => {
+server.start({ port: process.env.PORT || 4000 }, () => {
     console.log(
         `Server is running on port ${colors.blue('=>')} ${colors.red(
             'http://localhost:4000',

@@ -106,8 +106,8 @@ type User {
     password: String!
     posts: [Post!]!
     comments: [Comment!]!
-    updateAt: String!
-    createAt: String!
+    updateAt: String
+    createAt: String
 }
 
 type Post {
@@ -117,8 +117,8 @@ type Post {
     published: Boolean!
     author: User!
     comments: [Comment!]!
-    updateAt: String!
-    createAt: String!
+    updateAt: String
+    createAt: String
 }
 
 type Comment {
@@ -126,8 +126,8 @@ type Comment {
     text: String!
     author: User!
     post: Post!
-    updateAt: String!
-    createAt: String!
+    updateAt: String
+    createAt: String
 }
 
 enum MutationType {
