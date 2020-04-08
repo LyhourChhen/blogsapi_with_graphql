@@ -10,13 +10,16 @@ const User = {
     //         return comment.author === parent.id
     //     })
     // },
-    email: (parent, args, { prisma, request }) => {
-        const authUserId = getUserId(request, false)
-        if (authUserId && authUserId === parent.id) {
-            return parent.email
-        } else {
-            return null
-        }
+    email: {
+        fragment: 'fragment userId on User {id}',
+        resolver: (parent, args, { prisma, request }) => {
+            const authUserId = getUserId(request, false)
+            if (authUserId && authUserId === parent.id) {
+                return parent.email
+            } else {
+                return null
+            }
+        },
     },
 }
 

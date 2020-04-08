@@ -1,9 +1,11 @@
 import { Prisma } from 'prisma-binding'
+import { fragmentReplacements } from './resolvers/index'
 import colors from 'colors'
 const prisma = new Prisma({
     typeDefs: 'src/generated/prisma.graphql',
     endpoint: 'http://localhost:4466',
     secret: 'kjsdfhgag238768sdjvjhrfe8w',
+    fragmentReplacements,
 })
 
 export default prisma
