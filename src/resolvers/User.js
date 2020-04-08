@@ -10,9 +10,22 @@ const User = {
     //         return comment.author === parent.id
     //     })
     // },
+    posts: {
+        fragment: 'fragment userId on User {id}',
+        resolver: (parent, args, { prisma }, info) => {
+            return prisma.query.posts({
+                where: {
+                    published: true,
+                    author: {
+                        id: parent.id,
+                    },
+                },
+            })
+        },
+    },
     email: {
         fragment: 'fragment userId on User {id}',
-        resolver: (parent, args, { prisma, request }) => {
+        resolver: (parent, args, { prisma, request }, info) => {
             const authUserId = getUserId(request, false)
             if (authUserId && authUserId === parent.id) {
                 return parent.email
