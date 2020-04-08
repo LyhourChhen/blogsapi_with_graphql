@@ -1,7 +1,7 @@
 import bscript from 'bcryptjs'
 import colors from 'colors'
 import jwt from 'jsonwebtoken'
-
+import getUserId from '../utils/getUserId'
 // testing JWT
 // const token = jwt.sign({ id: 66 }, 'thesecretcode')
 // console.log('output the token: ', colors.red(token))
@@ -142,7 +142,8 @@ const Mutation = {
             info,
         )
     },
-    async createPost(parent, args, { db, pubsub, prisma }, info) {
+    async createPost(parent, args, { db, pubsub, prisma, request }, info) {
+        const AuthUserId = getUserId(request)
         // const userExists = db.users.some((user) => user.id === args.data.author)
         // if (!userExists) {
         //     throw new Error('User not found')
@@ -173,7 +174,7 @@ const Mutation = {
                     published: args.data.published,
                     author: {
                         connect: {
-                            id: args.data.author,
+                            id: AuthUserId,
                         },
                     },
                 },
