@@ -45,20 +45,43 @@ const Query = {
         // })
 
         // After Connected
-        const opArgs = {}
+        const opArgs = {
+            where: {
+                published: true,
+            },
+        }
         if (args.query) {
-            opArgs.where = {
-                OR: [
-                    {
-                        email_contains: args.query,
-                    },
-                    {
-                        email_contains: args.query,
-                    },
-                ],
-            }
+            opArgs.where.OR = [
+                {
+                    email_contains: args.query,
+                },
+                {
+                    email_contains: args.query,
+                },
+            ]
         }
         return prisma.query.posts(null, info)
+    },
+    myPosts: (parent, args, { prisma, request }, info) => {
+        const AuthUserId = getUserId(request)
+        const obArgs = {
+            where: {
+                author: {
+                    id: AuthUserId,
+                },
+            },
+        }
+        if (args.query) {
+            obArgs.where.OR = [
+                {
+                    title_contains: args.query,
+                },
+                {
+                    body_contains: args.query,
+                },
+            ]
+        }
+        return prisma.query.posts(obArgs, info)
     },
     comments(parent, args, { db }, info) {
         return db.comments
