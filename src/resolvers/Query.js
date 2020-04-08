@@ -1,3 +1,4 @@
+import getUserId from '../utils/getUserId'
 const Query = {
     users(parent, args, { db, prisma }, info) {
         // before connect with prisma server
@@ -62,20 +63,41 @@ const Query = {
     comments(parent, args, { db }, info) {
         return db.comments
     },
-    me() {
-        return {
-            id: '123098',
-            name: 'Mike',
-            email: 'mike@example.com',
-        }
+    async me(parent, args, { prisma, request }, info) {
+        const AuthUserId = await getUserId(request)
+        return prisma.query.user(
+            {
+                where: {
+                    id: AuthUserId,
+                },
+            },
+            info,
+        )
     },
-    post() {
-        return {
-            id: '092',
-            title: 'GraphQL 101',
-            body: '',
-            published: false,
+    async post(parent, args, { prisma, request }, info) {
+        const AuthUserId = await getUserId(request, false)
+        const posts = await prisma.query.posts(
+            {
+                where: {
+                    id: args.id,
+                    OR: [
+                        {
+                            published: true,
+                        },
+                        {
+                            author: {
+                                id: AuthUserId,
+                            },
+                        },
+                    ],
+                },
+            },
+            info,
+        )
+        if (posts.length === 0) {
+            throw new Error('Posts not found')
         }
+        return posts[0]
     },
 }
 
