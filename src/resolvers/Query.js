@@ -15,6 +15,7 @@ const Query = {
         const opArgs = {
             first: args.first,
             skip: args.skip,
+            after: args.after,
         }
         if (args.query) {
             opArgs.where = {
@@ -54,6 +55,7 @@ const Query = {
         const opArgs = {
             first: args.first,
             skip: args.skip,
+            after: args.after,
             where: {
                 published: true,
             },
@@ -74,6 +76,9 @@ const Query = {
         const AuthUserId = getUserId(request)
         const obArgs = {
             where: {
+                first: args.first,
+                skip: args.skip,
+                after: args.after,
                 author: {
                     id: AuthUserId,
                 },
@@ -111,6 +116,9 @@ const Query = {
             {
                 where: {
                     id: args.id,
+                    first: args.first,
+                    skip: args.skip,
+                    after: args.after,
                     OR: [
                         {
                             published: true,
