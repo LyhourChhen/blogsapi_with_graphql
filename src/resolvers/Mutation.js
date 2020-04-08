@@ -1,7 +1,7 @@
 import bscript from 'bcryptjs'
 import colors from 'colors'
-import jwt from 'jsonwebtoken'
 import getUserId from '../utils/getUserId'
+import generateToken from '../utils/generateToken'
 // testing JWT
 // const token = jwt.sign({ id: 66 }, 'thesecretcode')
 // console.log('output the token: ', colors.red(token))
@@ -52,7 +52,7 @@ const Mutation = {
         console.log('did i revieve user', user.id)
         return {
             user,
-            token: jwt.sign({ userId: user.id }, 'thisisasecret'),
+            token: generateToken(user.id),
         }
     },
 
@@ -73,7 +73,7 @@ const Mutation = {
 
         return {
             user,
-            token: jwt.sign({ userId: user.id }, 'thisisasecret'),
+            token: generateToken(user.id),
         }
     },
 
