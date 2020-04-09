@@ -6,7 +6,7 @@
     "author": "LyhourChhen <ukamilove66@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "start": "",
+        "start": "env-cmd ./config/prod.env node dist/index.js",
         "dev": "env-cmd ./config/dev.env nodemon --ext js,graphql --exec babel-node src/index.js",
         "get-schema": "graphql get-schema -p prisma",
         "deploy-reviews": " echo '==> will be host at ==> http://localhost:4466/reviews \n' && cd ./prisma-reviews && prisma deploy",
@@ -14,11 +14,13 @@
         "wipe-data": "prisma delete",
         "deploy-prod": "cd prisma && prisma deploy -e ../config/prod.env",
         "deploy-dev": "cd prisma && prisma deploy -e ../config/dev.env",
-        "deploy-all": "cd prisma && prisma deploy -e ../config/dev.env && prisma deploy -e ../config/prod.env"
+        "deploy-all": "cd prisma && prisma deploy -e ../config/dev.env && prisma deploy -e ../config/prod.env",
+        "heroku-postbuild": "babel src --out-dir dist --copy-files"
     },
     "dependencies": {
         "@babel/cli": "^7.8.4",
         "@babel/core": "^7.9.0",
+        "@babel/polyfill": "^7.8.7",
         "babel-cli": "^6.26.0",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-preset-env": "^1.7.0",

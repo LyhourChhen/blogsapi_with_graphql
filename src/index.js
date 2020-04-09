@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import { GraphQLServer, PubSub } from 'graphql-yoga'
 import colors from 'colors'
 import db from './db'
