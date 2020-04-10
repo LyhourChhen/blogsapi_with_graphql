@@ -35,6 +35,7 @@
         "bcryptjs": "^2.4.3",
         "colors": "^1.4.0",
         "concurrently": "^5.1.0",
+        "cross-fetch": "^3.0.4",
         "env-cmd": "8.0.2",
         "graphql-cli": "^3.0.14",
         "graphql-yoga": "^1.18.3",
