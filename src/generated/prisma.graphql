@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Wed Apr 08 2020 17:34:48 GMT+0700 (Indochina Time)
+# timestamp: Fri Apr 10 2020 12:31:41 GMT+0700 (Indochina Time)
 
 type AggregateComment {
   count: Int!
@@ -23,8 +23,8 @@ type Comment implements Node {
   text: String!
   author: User!
   post: Post!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 """A connection to a list of items."""
@@ -40,8 +40,8 @@ type CommentConnection {
 input CommentCreateInput {
   id: ID
   text: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   author: UserCreateOneWithoutCommentsInput!
   post: PostCreateOneWithoutCommentsInput!
 }
@@ -59,16 +59,16 @@ input CommentCreateManyWithoutPostInput {
 input CommentCreateWithoutAuthorInput {
   id: ID
   text: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   post: PostCreateOneWithoutCommentsInput!
 }
 
 input CommentCreateWithoutPostInput {
   id: ID
   text: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   author: UserCreateOneWithoutCommentsInput!
 }
 
@@ -95,8 +95,8 @@ enum CommentOrderByInput {
 type CommentPreviousValues {
   id: ID!
   text: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 input CommentScalarWhereInput {
@@ -564,8 +564,8 @@ type Post implements Node {
   published: Boolean!
   author: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 """A connection to a list of items."""
@@ -583,8 +583,8 @@ input PostCreateInput {
   title: String!
   body: String!
   published: Boolean!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   author: UserCreateOneWithoutPostsInput!
   comments: CommentCreateManyWithoutPostInput
 }
@@ -604,8 +604,8 @@ input PostCreateWithoutAuthorInput {
   title: String!
   body: String!
   published: Boolean!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -614,8 +614,8 @@ input PostCreateWithoutCommentsInput {
   title: String!
   body: String!
   published: Boolean!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   author: UserCreateOneWithoutPostsInput!
 }
 
@@ -648,8 +648,8 @@ type PostPreviousValues {
   title: String!
   body: String!
   published: Boolean!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 input PostScalarWhereInput {
@@ -1174,8 +1174,8 @@ type User implements Node {
   email: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 """A connection to a list of items."""
@@ -1193,8 +1193,8 @@ input UserCreateInput {
   name: String!
   password: String!
   email: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   posts: PostCreateManyWithoutAuthorInput
   comments: CommentCreateManyWithoutAuthorInput
 }
@@ -1214,8 +1214,8 @@ input UserCreateWithoutCommentsInput {
   name: String!
   password: String!
   email: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   posts: PostCreateManyWithoutAuthorInput
 }
 
@@ -1224,8 +1224,8 @@ input UserCreateWithoutPostsInput {
   name: String!
   password: String!
   email: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
   comments: CommentCreateManyWithoutAuthorInput
 }
 
@@ -1258,8 +1258,8 @@ type UserPreviousValues {
   name: String!
   password: String!
   email: String!
-  updateAt: DateTime!
-  createAt: DateTime!
+  updateAt: DateTime
+  createAt: DateTime
 }
 
 type UserSubscriptionPayload {
