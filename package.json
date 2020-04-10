@@ -7,13 +7,15 @@
     "license": "MIT",
     "scripts": {
         "start": "node dist/index.js",
+        "test": "jest",
         "dev": "env-cmd ./config/dev.env nodemon --ext js,graphql --exec babel-node src/index.js",
         "get-schema": "graphql get-schema -p prisma --dotenv config/dev.env",
         "deploy-reviews": " echo '==> will be host at ==> http://localhost:4466/reviews \n' && cd ./prisma-reviews && prisma deploy",
         "get-token": "cd prisma && prisma token",
-        "wipe-data": "prisma delete",
+        "wipe-data": "cd prisma && prisma delete",
         "deploy-prod": "cd prisma && prisma deploy -e ../config/prod.env",
         "deploy-dev": "cd prisma && prisma deploy -e ../config/dev.env",
+        "deploy-test": "cd prisma && prisma deploy -e ../config/test.env",
         "heroku-postbuild": "babel src --out-dir dist --copy-files"
     },
     "dependencies": {
@@ -33,6 +35,7 @@
         "uuid": "^7.0.2"
     },
     "devDependencies": {
+        "jest": "^25.3.0",
         "nodemon": "^2.0.2"
     }
 }
