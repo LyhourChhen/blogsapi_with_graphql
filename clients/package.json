@@ -4,10 +4,14 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
-        "start": "parcel src/index.js"
+        "start": "parcel src/index.html"
+    },
+    "dependencies": {
+        "apollo-boost": "^0.4.7",
+        "graphql": "^15.0.0"
     },
     "devDependencies": {
         "babel-core": "^6.26.3",
-        "parcel-bundler": "^1.12.4"
+        "parcel-bundler": "^1.9.7"
     }
 }
