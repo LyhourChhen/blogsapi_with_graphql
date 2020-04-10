@@ -18,7 +18,7 @@
         "deploy-test": "cd prisma && prisma deploy -e ../config/test.env",
         "heroku-postbuild": "babel src --out-dir dist --copy-files",
         "start-all": "concurrently 'yarn dev' 'cd clients && yarn start'",
-        "kill-ps": "kill -9 $(ps aux | grep node' | awk '{print $2}') && echo 'kill node process while running'"
+        "kill-ps": "echo 'kill node process while running' kill -9 && $(ps aux | grep node' | awk '{print $2}')"
     },
     "jest": {
         "globalSetup": "./tests/jests/globalSetup.js",

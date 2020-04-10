@@ -31,7 +31,7 @@ const Mutation = {
 
         // check password
         // Take in password -> Validate Password -> Hash Password -> Generate auth token
-        console.log('console prisma', colors.blue(prisma))
+        // console.log('console prisma', colors.blue(prisma))
 
         const password = await hashPassword(args.data.password)
 
